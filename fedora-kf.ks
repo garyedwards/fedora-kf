@@ -223,7 +223,7 @@ mkdir /etc/skel/.dwm
 curl -s -o  /etc/skel/.dwm/dwmrc https://github.com/garyedwards/fedora-kf/raw/master/dwmrc
 
 # startx X when logging into tty1
-curl >>/etc/skel/.bash_profile
+curl https://github.com/garyedwards/fedora-kf/raw/master/.bash_profile_autologin >>/etc/skel/.bash_profile
 
 # set icon theme
 curl -s -o /etc/skel/.gtkrc-2.0 https://github.com/garyedwards/fedora-kf/raw/master/.gtkrc-2.0
