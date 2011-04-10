@@ -1,5 +1,8 @@
 ! ~/.Xdefaults
 
+*font: -*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*
+*boldFont: -*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*
+
 urxvt*urgentOnBell: true
 urxvt*internalBorder: 1
 urxvt*saveLines: 10000
