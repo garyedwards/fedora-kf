@@ -253,4 +253,8 @@ chmod +x /usr/local/bin/nmgui
 curl -s -o /usr/local/bin/dwm-session https://github.com/garyedwards/fedora-kf/raw/master/dwm-session
 chmod +x /usr/local/bin/dwm-session
 
+# urxvtd startup script
+curl -s -o /usr/local/bin/urxvtcd https://github.com/thayerwilliams/msi-scripts/raw/master/urxvtcd
+chmod +x /usr/local/bin/urxvtcd
+
 %end
