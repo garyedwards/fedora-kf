@@ -1,0 +1,24 @@
+#!/bin/sh
+
+while true; do
+	xsetroot -name "`date`"
+	sleep 1
+done &
+
+xrdb -merge ~/.Xresources
+xset r rate 250 60
+
+xsetroot -solid darkgrey
+#feh --bg-center ${HOME}/bg.jpg
+
+xbindkeys
+pulseaudio -D
+#dispwin -I $HOME/.color/bluish.icc
+#emacs --daemon
+
+exec thunar --daemon &
+exec unclutter &
+exec xautolock -detectsleep &
+exec /usr/libexec/lxpolkit &
+
+#exec (sleep 4s && ~/bin/nmgui) &
