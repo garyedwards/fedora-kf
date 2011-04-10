@@ -217,10 +217,12 @@ EOF
 
 cat >>/usr/local/bin/dwm-session << EOF
 #!/bin/sh
-DIR=${HOME}/.dwm
-if [ -f "${DIR}"/dwmrc ]; then
-        /bin/sh "${DIR}"/dwmrc &
-else
+#DIR=${HOME}/.dwm
+#if [ -f "${DIR}"/dwmrc ]; then
+#        /bin/sh "${DIR}"/dwmrc &
+#else
+if [ -f ~/.dwm/dwmrc ]; then
+        /bin/sh ~/.dwm/dwmrc &
         while true; do
                 xsetroot -name "`date`"
                 sleep 1
@@ -247,11 +249,11 @@ xrdb -merge ~/.Xresources
 xset r rate 250 60
 
 xsetroot -solid darkgrey
-#feh --bg-center ${HOME}/bg.jpg
+#feh --bg-center ~/bg.jpg
 
 xbindkeys
 pulseaudio -D
-#dispwin -I $HOME/.color/bluish.icc
+#dispwin -I ~/.color/bluish.icc
 #emacs --daemon
 
 #exec thunar --daemon &
@@ -263,6 +265,7 @@ exec /usr/libexec/lxpolkit &
 EOF
 
 # startx X when logging into tty1
+# Problem using DISPLAY variable need to look into
 cat >>/etc/skel/.bash_profile << EOF
 if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
   #exec startx
@@ -284,7 +287,7 @@ gtk-button-images=1
 gtk-menu-images=1
 gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
-include "/home/gary/.gtkrc-2.0.mine"
+include "~/.gtkrc-2.0.mine"
 EOF
 
 # Set up xterm and xautolock
