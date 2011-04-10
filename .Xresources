@@ -1,0 +1,20 @@
+! ~/.Xdefaults
+
+xterm*bellIsUrgent:     true
+xterm*saveLines:        10000
+xterm*scrollBar:        false
+xterm*scrollTtyOutput:  false
+xterm*jumpScroll:       true
+xterm*fastScroll:       true
+xterm*multiScroll:      true
+xterm*cutNewline:       true
+xterm*highlightSelection: true
+xterm*trimSelection:    true
+! match selection for URLs and emails on mouse-click
+xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:38
+
+! xautolock screen locker
+xautolock.time: 5
+xautolock.corners: 000+
+xautolock.cornerdelay: 3
+xautolock.locker: slock
