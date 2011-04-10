@@ -120,7 +120,6 @@ generic-logos
 
 # save some space
 -nss_db
--acpid
 -kernel-PAE
 
 # drop some system-config things
