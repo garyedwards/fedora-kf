@@ -207,7 +207,7 @@ sed -i 's/rhgb//' /boot/grub/grub.conf
 sed -i 's/quiet//' /boot/grub/grub.conf
 
 # set Xorg keyboard
-cat >>/etc/X11/xorg.conf << EOF
+cat >/etc/X11/xorg.conf << EOF
 Section "InputClass"
     Identifier "Keyboard Defaults"
     MatchIsKeyboard "yes"
@@ -215,7 +215,7 @@ Section "InputClass"
 EndSection
 EOF
 
-cat >>/usr/local/bin/dwm-session << EOF
+cat >/usr/local/bin/dwm-session << EOF
 #!/bin/sh
 #DIR=${HOME}/.dwm
 #if [ -f "${DIR}"/dwmrc ]; then
@@ -237,7 +237,7 @@ echo 'exec ck-launch-session /usr/local/bin/dwm-session' > /etc/skel/.xinitrc
 
 ##.dwm/dwmrc
 mkdir /etc/skel/.dwm
-cat >>/etc/skel/.dwm/dwmrc << EOF
+cat >/etc/skel/.dwm/dwmrc << EOF
 #!/bin/sh
 
 while true; do
@@ -275,7 +275,7 @@ fi
 EOF
 
 # set icon theme
-cat >>/etc/skel/.gtkrc-2.0 << EOF
+cat >/etc/skel/.gtkrc-2.0 << EOF
 gtk-theme-name="Mist"
 gtk-icon-theme-name="gnome"
 gtk-font-name="Sans 10"
@@ -291,7 +291,7 @@ include "~/.gtkrc-2.0.mine"
 EOF
 
 # Set up xterm and xautolock
-cat >>/etc/skel/.Xresources << EOF
+cat >/etc/skel/.Xresources << EOF
 xterm*bellIsUrgent:     true
 xterm*saveLines:        10000
 xterm*scrollBar:        false
@@ -313,7 +313,7 @@ xautolock.locker: slock
 EOF
 
 # Set up keyboard shortcuts
-cat >>/etc/skel/.xbindkeysrc << EOF
+cat >/etc/skel/.xbindkeysrc << EOF
 "xbindkeys_show" 
   Control+Shift + q
 
@@ -388,7 +388,7 @@ cat >>/etc/skel/.xbindkeysrc << EOF
 EOF
 
 # Add nmgui script
-cat >>/etc/skel/bin/nmgui<< EOF
+cat >/etc/skel/bin/nmgui<< EOF
 #!/bin/sh
 nm-applet --sm-disable > /dev/null 2>/dev/null &
 stalonetray -geometry 1x1+35-530 > /dev/null 2>/dev/null
