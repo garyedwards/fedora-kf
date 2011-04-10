@@ -196,6 +196,7 @@ thunar
 gmrun
 nano
 eject
+pm-utils
 
 # themes
 gnome-themes
