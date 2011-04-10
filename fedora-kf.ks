@@ -393,6 +393,7 @@ cat >>/etc/skel/bin/nmgui<< EOF
 nm-applet --sm-disable > /dev/null 2>/dev/null &
 stalonetray -geometry 1x1+35-530 > /dev/null 2>/dev/null
 killall nm-applet
+EOF
 
 chmod +x /etc/skel/bin/nmgui
 
