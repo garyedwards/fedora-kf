@@ -189,6 +189,7 @@ xcalc
 thunar
 gmrun
 nano
+eject
 
 # themes
 gnome-themes
