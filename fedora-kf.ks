@@ -229,6 +229,10 @@ curl https://github.com/garyedwards/fedora-kf/raw/master/.bash_profile_autologin
 # set icon theme
 curl -s -o /etc/skel/.gtkrc-2.0 https://github.com/garyedwards/fedora-kf/raw/master/.gtkrc-2.0
 
+# Thunar config
+mkdir -p /etc/skel/.config/Thunar/
+curl -s -o /etc/skel/.config/Thunar/thunarrc https://github.com/garyedwards/fedora-kf/raw/master/thunarrc
+
 # Set up xterm and xautolock
 curl -s -o /etc/skel/.Xresources https://github.com/garyedwards/fedora-kf/raw/master/.Xresources
 
