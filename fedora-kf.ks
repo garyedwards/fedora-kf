@@ -256,7 +256,7 @@ pulseaudio -D
 #dispwin -I ~/.color/bluish.icc
 #emacs --daemon
 
-#exec thunar --daemon &
+exec thunar --daemon &
 exec unclutter &
 exec xautolock -detectsleep &
 exec /usr/libexec/lxpolkit &
