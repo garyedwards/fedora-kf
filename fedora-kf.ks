@@ -387,4 +387,13 @@ cat >>/etc/skel/.xbindkeysrc << EOF
   Control+Mod1 + Insert
 EOF
 
+# Add nmgui script
+cat >>/etc/skel/bin/nmgui<< EOF
+#!/bin/sh
+nm-applet --sm-disable > /dev/null 2>/dev/null &
+stalonetray -geometry 1x1+35-530 > /dev/null 2>/dev/null
+killall nm-applet
+
+chmod +x /etc/skel/bin/nmgui
+
 %end
