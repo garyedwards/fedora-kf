@@ -1,15 +1,13 @@
-# Kickstart file to build the appliance operating
-# system for fedora.
-# This is based on the work at http://www.thincrust.net
+# fedora-kf
 lang C
-keyboard us
-timezone US/Eastern
+keyboard uk
+timezone Europe/Jersey
 auth --useshadow --enablemd5
-selinux --permissive
+selinux --disabled
 firewall --disabled
-bootloader --timeout=1 --append="acpi=force"
-network --bootproto=dhcp --device=eth0 --onboot=on
-services --enabled=network
+bootloader --timeout=3 --append="acpi=force selinux=0"
+#network --bootproto=dhcp --device=eth0 --onboot=on
+services --enabled=NetworkManager,messagebus,rsyslog --disabled=crond,ip6tables,netfs,avahi-demon
 
 # Uncomment the next line
 # to make the root password be thincrust
@@ -21,7 +19,7 @@ services --enabled=network
 # This information is used by appliance-tools but
 # not by the livecd tools.
 #
-part / --size 1024 --fstype ext4 --ondisk sda
+#part / --size 1024 --fstype ext4 --ondisk sda
 
 #
 # Repositories
@@ -30,6 +28,13 @@ part / --size 1024 --fstype ext4 --ondisk sda
 repo --name=fedora --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
 #repo --name=updates --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch
 #repo --name=updates-testing --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=updates-testing-f$releasever&arch=$basearch
+
+#repo --name=rpmfusion-free --baseurl=http://download1.rpmfusion.org/free/fedora/releases/14/Everything/i386/os
+#repo --name=rpmfusion-free-updates --baseurl=http://download1.rpmfusion.org/free/fedora/updates/14/i386
+#repo --name=rpmfusion-non-free  --baseurl=http://download1.rpmfusion.org/nonfree/fedora/releases/14/Everything/i386/os
+#repo --name=rpmfusion-non-free-updates --baseurl=http://download1.rpmfusion.org/nonfree/fedora/updates/14/i386
+
+#repo --name=livna --baseurl=ftp://mirrors.tummy.com/pub/rpm.livna.org/repo/14/i386
 
 #
 # Add all the packages after the base packages
@@ -49,9 +54,15 @@ acpid
 #needed to disable selinux
 lokkit
 
-#Allow for dhcp access
-dhclient
-iputils
+# NetworkManager
+dbus
+NetworkManager
+gnome-keyring
+NetworkManager-gnome
+
+##Allow for dhcp access
+#dhclient
+#iputils
 
 #
 # Packages to Remove
@@ -63,10 +74,10 @@ iputils
 -setserial
 -ed
 
-# Remove the authconfig pieces
--authconfig
--rhpl
--wireless-tools
+## Remove the authconfig pieces
+#-authconfig
+#-rhpl
+#-wireless-tools
 
 # Remove the kbd bits
 -kbd
@@ -91,19 +102,139 @@ iputils
 -fedora-logos
 generic-logos
 -fedora-release-notes
+
+# Remove sendmail
+-sendmail
+
+# Install Xorg
+
+# Install basic X
+xorg-x11-server-Xorg
+xorg-x11-xinit
+#xorg-x11-drivers
+
+# Install only required drivers
+xorg-x11-drv-evdev
+xorg-x11-drv-keyboard
+xorg-x11-drv-mouse
+
+# Laptop
+#xorg-x11-drv-intel
+#xorg-x11-drv-synaptics
+
+# Virtual box
+xorg-x11-drv-vesa
+
+# Install Window Manager
+dwm
+dmenu
+
+# Internet
+surf
+
+# Office
+
+# graphics
+geeqie
+
+# audio & video
+alsa-plugins-pulseaudio
+pavucontrol
+
+# utils
+unclutter
+slock
+stalonetray
+lftp
+conky
+xorg-x11-utils
+feh
+xautolock
+xbindkeys
+
+# Repos
+#rpmfusion-free-release
+#rpmfusion-nonfree-release
+#livna-release
+
+# needs storting
+gnome-themes
+
+# mimeopen for setting default applications
+perl-File-MimeInfo
+
+# use yum instead of gnome-packagekit
+-gnome-packagekit
+-kpackagekit
+
+# Install lxpolit for NetworkManager
+-polkit-gnome
+-polkit-kde
+lxpolkit
+
+# make sure xfce4-notifyd is not pulled in
+#notification-daemon
+-xfce4-notifyd
+
+# dictionaries are big
+-aspell-*
+-hunspell-*
+-man-pages-*
+-words
+
+# save some space
+-nss_db
+-acpid
+-kernel-PAE
+
+# drop some system-config things
+-system-config-boot
+-system-config-language
+-system-config-lvm
+-system-config-network
+-system-config-rootpassword
+-system-config-services
+-policycoreutils-gui
+-gnome-disk-utility
+
 %end
 
-#
-# Add custom post scripts after the base post.
-#
 %post
 
-%end
+# Disable Graphical boot
+sed -i 's/rhgb//' /boot/grub/grub.conf
+sed -i 's/quiet//' /boot/grub/grub.conf
 
-##.xinitrc
-exec ck-launch-session /usr/local/bin/dwm-session
+# set Xorg keyboard
+cat >>/etc/X11/xorg.conf << EOF
+Section "InputClass"
+    Identifier "Keyboard Defaults"
+    MatchIsKeyboard "yes"
+    Option "XkbLayout" "gb"
+EndSection
+EOF
+
+cat >>/usr/local/bin/dwm-session << EOF
+#!/bin/sh
+DIR=${HOME}/.dwm
+if [ -f "${DIR}"/dwmrc ]; then
+        /bin/sh "${DIR}"/dwmrc &
+else
+        while true; do
+                xsetroot -name "`date`"
+                sleep 1
+        done &
+fi
+exec /usr/bin/dwm
+EOF
+
+chmod +x /usr/local/bin/dwm-session
+
+echo 'exec ck-launch-session /usr/local/bin/dwm-session' > /etc/skel/.xinitrc
 
 ##.dwm/dwmrc
+mkdir /etc/skel/.dwm
+cat >>/etc/skel/.dwm/dwmrc << EOF
 #!/bin/sh
 
 while true; do
@@ -122,27 +253,25 @@ pulseaudio -D
 #dispwin -I $HOME/.color/bluish.icc
 #emacs --daemon
 
-exec thunar --daemon &
+#exec thunar --daemon &
 exec unclutter &
 exec xautolock -detectsleep &
 exec /usr/libexec/lxpolkit &
 
 #exec (sleep 4s && ~/bin/nmgui) &
+EOF
 
-##/usr/local/bin/dwm-session
-#!/bin/sh
-DIR=${HOME}/.dwm
-if [ -f "${DIR}"/dwmrc ]; then
-        /bin/sh "${DIR}"/dwmrc &
-else
-        while true; do
-                xsetroot -name "`date`"
-                sleep 1
-        done &
+# startx X when logging into tty1
+cat >>/etc/skel/.bash_profile << EOF
+if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
+  #exec startx
+  # Could use xinit instead of startx
+  exec xinit -- /usr/bin/X -nolisten tcp vt7
 fi
-exec /usr/bin/dwm
+EOF
 
-##.gtkrc-2.0
+# set icon theme
+cat >>/etc/skel/.gtkrc-2.0 << EOF
 gtk-theme-name="Mist"
 gtk-icon-theme-name="gnome"
 gtk-font-name="Sans 10"
@@ -155,26 +284,10 @@ gtk-menu-images=1
 gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
 include "/home/gary/.gtkrc-2.0.mine"
+EOF
 
-##.bash_profile
-# .bash_profile
-
-# Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-        . ~/.bashrc
-fi
-
-# User specific environment and startup programs
-
-PATH=$PATH:$HOME/bin
-
-if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
-  #exec startx
-  # Could use xinit instead of startx
-  exec xinit -- /usr/bin/X -nolisten tcp vt7
-fi
-
-##.Xresources
+# Set up xterm and xautolock
+cat >>/etc/skel/.Xresources << EOF
 xterm*bellIsUrgent:     true
 xterm*saveLines:        10000
 xterm*scrollBar:        false
@@ -193,28 +306,10 @@ xautolock.time: 5
 xautolock.corners: 000+
 xautolock.cornerdelay: 3
 xautolock.locker: slock
+EOF
 
-###########################
-# xbindkeys configuration #
-###########################
-
-# To specify a key, you can use 'xbindkeys --key' or
-# 'xbindkeys --multikey' and put one of the two lines in this file.
-#
-# The format of a command line is:
-#    "command to start"
-#       associated key
-#
-# A list of keys is in /usr/include/X11/keysym.h and in
-# /usr/include/X11/keysymdef.h
-# The XK_ is not needed.
-#
-# List of modifier:
-#   Release, Control, Shift, Mod1 (Alt), Mod2 (NumLock),
-#   Mod3 (CapsLock), Mod4, Mod5 (Scroll).
-#
-#   Mod4 is the Windows meta key
-
+# Set up keyboard shortcuts
+cat >>/etc/skel/.xbindkeysrc << EOF
 "xbindkeys_show" 
   Control+Shift + q
 
@@ -286,3 +381,6 @@ xautolock.locker: slock
 # shutdown
 "sudo shutdown -h now"
   Control+Mod1 + Insert
+EOF
+
+%end
