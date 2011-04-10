@@ -162,6 +162,7 @@ dmenu
 
 # Internet
 surf
+firefox
 
 # Office
 
@@ -183,6 +184,10 @@ feh
 xautolock
 xbindkeys
 perl-File-MimeInfo
+scrot
+xcalc
+thunar
+gmrun
 
 # themes
 gnome-themes
