@@ -9,17 +9,10 @@ bootloader --timeout=3 --append="acpi=force selinux=0"
 #network --bootproto=dhcp --device=eth0 --onboot=on
 services --enabled=NetworkManager,messagebus,rsyslog --disabled=crond,ip6tables,netfs,avahi-demon
 
-# Uncomment the next line
-# to make the root password be thincrust
-# By default the root password is emptied
-#rootpw --iscrypted $1$uw6MV$m6VtUWPed4SqgoW6fKfTZ/
-
-#
-# Partition Information. Change this as necessary
-# This information is used by appliance-tools but
-# not by the livecd tools.
-#
-#part / --size 1024 --fstype ext4 --ondisk sda
+# Partition set up
+#clearpart --all
+part / --size 4100 --fstype ext4 --ondisk sda
+part swap --recommended
 
 #
 # Repositories
@@ -60,9 +53,14 @@ NetworkManager
 gnome-keyring
 NetworkManager-gnome
 
-##Allow for dhcp access
-#dhclient
-#iputils
+# Install lxpolkit
+-polkit-gnome
+-polkit-kde
+lxpolkit
+
+#Allow for dhcp access
+dhclient
+iputils
 
 #
 # Packages to Remove
@@ -105,6 +103,39 @@ generic-logos
 
 # Remove sendmail
 -sendmail
+
+# use yum instead of gnome-packagekit
+-gnome-packagekit
+-kpackagekit
+
+# make sure xfce4-notifyd is not pulled in
+#notification-daemon
+-xfce4-notifyd
+
+# dictionaries are big
+-aspell-*
+-hunspell-*
+-man-pages-*
+-words
+
+# save some space
+-nss_db
+-acpid
+-kernel-PAE
+
+# drop some system-config things
+-system-config-boot
+-system-config-language
+-system-config-lvm
+-system-config-network
+-system-config-rootpassword
+-system-config-services
+-policycoreutils-gui
+-gnome-disk-utility
+
+#
+# Desktop Packages
+#
 
 # Install Xorg
 
@@ -151,51 +182,15 @@ xorg-x11-utils
 feh
 xautolock
 xbindkeys
+perl-File-MimeInfo
+
+# themes
+gnome-themes
 
 # Repos
 #rpmfusion-free-release
 #rpmfusion-nonfree-release
 #livna-release
-
-# needs storting
-gnome-themes
-
-# mimeopen for setting default applications
-perl-File-MimeInfo
-
-# use yum instead of gnome-packagekit
--gnome-packagekit
--kpackagekit
-
-# Install lxpolit for NetworkManager
--polkit-gnome
--polkit-kde
-lxpolkit
-
-# make sure xfce4-notifyd is not pulled in
-#notification-daemon
--xfce4-notifyd
-
-# dictionaries are big
--aspell-*
--hunspell-*
--man-pages-*
--words
-
-# save some space
--nss_db
--acpid
--kernel-PAE
-
-# drop some system-config things
--system-config-boot
--system-config-language
--system-config-lvm
--system-config-network
--system-config-rootpassword
--system-config-services
--policycoreutils-gui
--gnome-disk-utility
 
 %end
 
