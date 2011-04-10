@@ -188,6 +188,7 @@ scrot
 xcalc
 thunar
 gmrun
+nano
 
 # themes
 gnome-themes
