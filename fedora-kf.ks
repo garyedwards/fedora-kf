@@ -162,6 +162,9 @@ dmenu
 # Internet
 surf
 firefox
+irssi
+nmap
+rtorrent
 
 # Office
 
@@ -171,6 +174,10 @@ geeqie
 # audio & video
 alsa-plugins-pulseaudio
 pavucontrol
+
+# Terminal
+rxvt-unicode
+screen
 
 # utils
 unclutter
