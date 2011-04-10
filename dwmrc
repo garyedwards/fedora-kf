@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# set dwm staus bar
 while true; do
 	xsetroot -name "`date`"
 	sleep 1
@@ -21,4 +22,4 @@ exec unclutter &
 exec xautolock -detectsleep &
 exec /usr/libexec/lxpolkit &
 
-#exec (sleep 4s && ~/bin/nmgui) &
+#exec (sleep 4s && nmgui) &
