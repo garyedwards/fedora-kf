@@ -197,6 +197,7 @@ gmrun
 nano
 eject
 pm-utils
+dzen2
 
 # themes
 gnome-themes
