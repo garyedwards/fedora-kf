@@ -11,8 +11,8 @@ services --enabled=NetworkManager,messagebus,rsyslog --disabled=crond,ip6tables,
 
 # Partition set up
 #clearpart --all
-part / --size 4100 --fstype ext4 --ondisk sda
-part swap --recommended
+#part / --size 4100 --fstype ext4 --ondisk sda
+#part swap --recommended
 
 #
 # Repositories
@@ -22,12 +22,12 @@ repo --name=fedora --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo
 #repo --name=updates --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch
 #repo --name=updates-testing --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=updates-testing-f$releasever&arch=$basearch
 
-#repo --name=rpmfusion-free --baseurl=http://download1.rpmfusion.org/free/fedora/releases/14/Everything/i386/os
-#repo --name=rpmfusion-free-updates --baseurl=http://download1.rpmfusion.org/free/fedora/updates/14/i386
-#repo --name=rpmfusion-non-free  --baseurl=http://download1.rpmfusion.org/nonfree/fedora/releases/14/Everything/i386/os
-#repo --name=rpmfusion-non-free-updates --baseurl=http://download1.rpmfusion.org/nonfree/fedora/updates/14/i386
+repo --name=rpmfusion-free --baseurl=http://download1.rpmfusion.org/free/fedora/releases/14/Everything/i386/os
+repo --name=rpmfusion-free-updates --baseurl=http://download1.rpmfusion.org/free/fedora/updates/14/i386
+repo --name=rpmfusion-non-free  --baseurl=http://download1.rpmfusion.org/nonfree/fedora/releases/14/Everything/i386/os
+repo --name=rpmfusion-non-free-updates --baseurl=http://download1.rpmfusion.org/nonfree/fedora/updates/14/i386
 
-#repo --name=livna --baseurl=ftp://mirrors.tummy.com/pub/rpm.livna.org/repo/14/i386
+repo --name=livna --baseurl=ftp://mirrors.tummy.com/pub/rpm.livna.org/repo/14/i386
 
 #
 # Add all the packages after the base packages
@@ -204,9 +204,9 @@ dzen2
 gnome-themes
 
 # Repos
-#rpmfusion-free-release
-#rpmfusion-nonfree-release
-#livna-release
+rpmfusion-free-release
+rpmfusion-nonfree-release
+livna-release
 
 %end
 
