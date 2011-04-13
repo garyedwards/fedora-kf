@@ -44,6 +44,7 @@ rootfiles
 yum
 vim-minimal
 acpid
+cryptsetup-luks
 #needed to disable selinux
 lokkit
 
